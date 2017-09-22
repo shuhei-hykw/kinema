@@ -1,0 +1,14 @@
+##
+#  file: nagaraA.param
+#  date: 2017.09.22
+#  note: Unit is [um] and [degree].
+#
+#
+
+Density	3.6
+
+# Name	S	Range	eRange	Theta	eTheta	Phi	ePhi
+
+T1	-2	8.1	0.3	44.9	2.0	337.5	1.8
+T3	0	3.2	0.4	57.7	5.2	174.9	2.9
+T4	0	88.3	0.5	156.2	0.5	143.0	1.0

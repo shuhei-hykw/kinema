@@ -7,11 +7,6 @@
 #include <map>
 #include <vector>
 
-namespace Param
-{
-  enum EParam { Range, RangeE, Theta, ThetaE, Phi, PhiE, NParam };
-}
-
 //______________________________________________________________________________
 class UserParamMan
 {
@@ -32,6 +27,9 @@ private:
   std::string              m_file_name;
   ParamMap                 m_param_map;
   std::vector<std::string> m_key_list;
+
+public:
+  enum ETrackParam { S, Range, RangeE, Theta, ThetaE, Phi, PhiE, NTrackParam };
 
 public:
   bool               Initialize( void );

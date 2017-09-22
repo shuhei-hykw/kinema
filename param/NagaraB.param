@@ -1,0 +1,14 @@
+##
+#  file: NagaraB.param
+#  date: 2017.09.22
+#  note: Unit is [um] and [degree].
+#
+#
+
+Density	3.6
+
+# Name	S	Range	eRange	Theta	eTheta	Phi	ePhi
+
+T2	-2	9.1	0.3	77.7	1.6	115.9	0.8
+T5	0	82.1	0.6	122.8	1.0	284.2	0.7
+T6	0	13697	0.	81.1	0.8	305.5	0.1

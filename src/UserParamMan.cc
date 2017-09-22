@@ -1,5 +1,7 @@
 // -*- C++ -*-
 
+#include "UserParamMan.hh"
+
 #include <cstdlib>
 #include <fstream>
 #include <iomanip>
@@ -8,12 +10,13 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "UserParamMan.hh"
+#include "KinematicsAnalyzer.hh"
 #include "RootHelper.hh"
 
 namespace
 {
   const double default_value = -9999.;
+  KinematicsAnalyzer& gKinema = KinematicsAnalyzer::GetInstance();
 }
 
 // if no parameter,
@@ -64,21 +67,19 @@ UserParamMan::Initialize( void )
     ParamArray param_array;
     double   param;
     while( input_line >> param ){
-      param_array.push_back( param );
+      param_array.push_back( TMath::Abs(param) );
     }
 
-    if( param_array.size() != Param::NParam ){
-      std::cerr << "#W " << func_name << " "
-		<< " key = " << key
-		<< " Wrong parameter size : " << param_array.size()
-		<< std::endl;
+    if( param_array.size() == NTrackParam ){
+      gKinema.Add( new Particle( key, param_array[S],
+				 param_array[Range], param_array[RangeE],
+				 param_array[Theta], param_array[ThetaE],
+				 param_array[Phi], param_array[PhiE] ) );
     }
 
     m_param_map[key] = param_array;
     m_key_list.push_back( key );
   }
-
-  Print();
 
   m_is_ready = true;
   return true;

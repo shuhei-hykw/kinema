@@ -166,7 +166,7 @@ double P(double Mass,double Range,int Z,int A,int S)//(double Mass,double Range,
 
 {
 
-  double R,R0,KE,KE0,dKE,E,P;
+  double R,R0,KE,KE0,dKE,E;
   R = 0.00;
   R0 = 0.00;
   KE = 0.00;
@@ -216,12 +216,8 @@ double P(double Mass,double Range,int Z,int A,int S)//(double Mass,double Range,
     }
 
   E = Mass+KE;
-  P = sqrt(E*E-Mass*Mass);
 
-
-  return P;
-
-
+  return TMath::Sqrt(E*E-Mass*Mass);
 }
 
 
