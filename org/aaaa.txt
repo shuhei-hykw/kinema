@@ -1,0 +1,6 @@
+100	1.0          #particle1 |mom1|=100.0+-1.0MeV
+90	1.0          #theta1 90.0+-1.0deg
+0	1.0          #phi2 0.0+-1.0deg
+100	1.0          #particle2 |mom1|=100.0+-1.0MeV
+90	1.0          #theta2 90.0+-1.0deg
+180	1.0         #phi2 180.0+-1.0deg
