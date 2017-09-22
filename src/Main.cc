@@ -4,18 +4,43 @@
 //それが誤差の３倍以内で成り立つものを見つけ出すものである。表示する際は、どの粒子を当てはめて、計算したかを、Z,A,Sを用いて、表示しています。
 //出力したresult.txtには、反応式を表記して、どのような反応が仮定されたかを見やすくしてあります。
 
-#include <stdio.h>
-#include <math.h>
+#include <libgen.h>
+#include <iostream>
+#include <vector>
 
 #include "charged.hh"
 #include "n_charged.hh"
 #include "P.hh"
 #include "KE.hh"
+#include "UserParamMan.hh"
+
+namespace
+{
+  enum EArg { kProcess, kParamFile, kArgc };
+  UserParamMan& gUser = UserParamMan::GetInstance();
+}
 
 //______________________________________________________________________________
 int
 main( int argc, char *argv[] )
 {
+  if( argc != kArgc ){
+    std::cout << std::endl
+	      << "Usage : " << basename(argv[kProcess])
+	      << " [ParamFile]" << std::endl
+	      << std::endl;
+    return EXIT_SUCCESS;
+  }
+
+  if( !gUser.Initialize( argv[kParamFile] ) )
+    return EXIT_FAILURE;
+
+
+  double r1 = gUser.GetParameter("P1",0);
+
+  std::cout << "r1 : " << r1 << std::endl;
+
+
   int    charged_kind, n_kind;
   double Range1, Range2, Range3, errRange1, errRange2, errRange3;
   double theta1, theta2, theta3, errtheta1, errtheta2, errtheta3;
