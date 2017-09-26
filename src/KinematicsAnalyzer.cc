@@ -33,39 +33,16 @@ KinematicsAnalyzer::DoSearch( void )
   double theta1, theta2, theta3, errtheta1, errtheta2, errtheta3;
   double phi1, phi2, phi3, errphi1, errphi2, errphi3;
 
-  //キーボードから実験値を入力する。
-  printf("\n\n");
-  printf("（１）このプログラムは、キーボードより打ち込まれたtrackのRange、θ、φから\n");
-  printf("　　　当てはまる崩壊過程を見つけだすプログラムです。\n");
-  printf("（２）このプログラムでは、以下の崩壊パターンより、数値入力にて選択し、\n");
-  printf("      使用することができます。\n");
-  printf("（３）あらかじめ決めておいた、粒子１から粒子３の順に打ち込んでください。\n");
-  printf("（４）計算が完了しましたら、このウインドウに「計算されました！」と表記されます。");
-  printf("　　　表記されるまで、しばらくお待ちください。\n");
-  printf("（５）打ち込む数値は、半角数字で入力してください。\n");
-  printf("（６）数値は、打ち込むごとにenterキーを押してください。\n\n\n");
-
-  printf("はじめに,崩壊パターンを決定します。\n");
-  printf("「charged particle の数」は、「１」〜「３」を入力してください。\n");
-  printf("「中性粒子の数」は、「０」か「１」を入力してください。\n\n\n");
-
-  printf("\n\nここからは、Range、θ、φの入力を行います。\n\n\n");
-
-  //動いているのを確認。
-  printf("\n\n与えられた値をもとに、以下に示した内容で計算します。\n\n");
-
   if( n_charged==3 && n_neutron==0 )//charged particles が３個の場合
     {
-      double answer1 = calc::ThreeCharged( (int)S(0), (int)S(1), (int)S(2),
-					   Range(0),  Range(1),  Range(2),
-					   RangeE(0), RangeE(1), RangeE(2),
-					   Theta(0),  Theta(1),  Theta(2),
-					   ThetaE(0), ThetaE(1), ThetaE(2),
-					   Phi(0),    Phi(1),    Phi(2),
-					   PhiE(0),   PhiE(1),   PhiE(2) );
+      bool answer1 = calc::ThreeCharged( (int)S(0), (int)S(1), (int)S(2),
+					 Range(0),  Range(1),  Range(2),
+					 RangeE(0), RangeE(1), RangeE(2),
+					 Theta(0),  Theta(1),  Theta(2),
+					 ThetaE(0), ThetaE(1), ThetaE(2),
+					 Phi(0),    Phi(1),    Phi(2),
+					 PhiE(0),   PhiE(1),   PhiE(2) );
 
-      printf("\n\n計算が終了しました!");
-      getchar();
     }
 
   else if( n_charged==2 && n_neutron==0 )//charged partibles が２個の場合

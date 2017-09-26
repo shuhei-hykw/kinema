@@ -1,14 +1,12 @@
 // -*- C++ -*-
 
-//このプログラムは、実験結果より得られたRange、theta、phiより、存在が確認されているすべての粒子においてtrackを当てはめて、親粒子の質量を計算する。
-//それが誤差の３倍以内で成り立つものを見つけ出すものである。表示する際は、どの粒子を当てはめて、計算したかを、Z,A,Sを用いて、表示しています。
-//出力したresult.txtには、反応式を表記して、どのような反応が仮定されたかを見やすくしてあります。
-
 #include <libgen.h>
 #include <iostream>
-#include <vector>
+
+#include <TTimeStamp.h>
 
 #include "Database.hh"
+#include "DebugTimer.hh"
 #include "UserParamMan.hh"
 #include "KinematicsAnalyzer.hh"
 
@@ -24,6 +22,8 @@ namespace
 int
 main( int argc, char *argv[] )
 {
+  debug::Timer s;
+
   if( argc != kArgc ){
     std::cout << std::endl
 	      << "Usage : " << basename(argv[kProcess])
@@ -35,7 +35,7 @@ main( int argc, char *argv[] )
   if( !gParam.Initialize( argv[kParamFile] ) )
     return EXIT_FAILURE;
 
-  gData.Print();
+  // gData.Print();
 
   gKinema.Print("Before");
   gKinema.DoSearch();

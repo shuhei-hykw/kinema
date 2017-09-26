@@ -26,9 +26,56 @@ namespace calc
     }
   }
 
-
   //______________________________________________________________________________
   double
+  KineticEnergy( double mass, double range, int a, int z, int s)
+  {
+    double R0, KE, KE0, dKE;
+    R0 = 0.00;
+    KE = 0.00;
+    KE0 = 0.00;
+    dKE = 10.0;
+
+    while( dKE > 0.00005 ){
+      if( range > R0 ){
+	KE = KE + dKE;
+      } else {
+	KE = KE - dKE;
+      }
+
+      if( KE <= 0. ){
+	KE = 0.;
+      }
+
+      double return_R = KE_sub( mass, KE, z );
+
+      if( (return_R >= range && range >= R0) || ( return_R <= range && range <= R0 ) ){
+	dKE = dKE/10.0;
+	KE  = KE0+(KE-KE0)*(range-R0)/(return_R-R0);
+
+	if( KE <= 0. ){
+	  KE = 0.;
+	}
+
+	R0 = KE_sub( mass, KE, z );// function1(Mass,KE,Z,D,r);
+      } else {
+	R0 = return_R;
+      }
+
+      //R0 = function2(Mass,KE,Z);
+      KE0 = KE;
+    }
+
+#if 0
+    double E = mass + KE;
+    double P = TMath::Sqrt( E*E - mass*mass );
+#endif
+
+    return KE;
+  }
+
+  //______________________________________________________________________________
+  bool
   ThreeCharged( int S1, int S2, int S3,
 		double Range1, double Range2, double Range3,
 		double errRange1,double errRange2,double errRange3,
@@ -71,8 +118,6 @@ namespace calc
 
     int SS,ZZ,AA;//親粒子の種類
     double Estimated_Mass,Mass_gap;//推定されるsingleおよびdoubleの質量、推定される親粒子と計算された質量との差
-
-
 
     double M[4][19][8] ={{{938.272,0.,0.,0.,0.,0.,0.,0.},//考えられる粒子の質量表
 			  {1875.613,0.,0.,0.,0.,0.,0.,0.},
@@ -229,13 +274,6 @@ namespace calc
 				{"0.","0.","0.","0.","0.","0.","0.","0."},
 				{"0.","0.","0.","0.","0.","0.","0.","0."}}};
 
-    printf("\n\n最後に、親粒子と娘粒子のストレンジ数を決定します。\n");
-    printf("ここでは、「０」〜「３」を入力します。\n");
-    printf("通常原子核（π-も含む ）＝  「０」\n");
-    printf("    single hyper     ＝  「1」\n");
-    printf("    double hyper     ＝  「2」\n");
-    printf("    Ξ- + C(N,O)      ＝  「3」\n\n");
-
     for( const auto& particle0 : gDatabase.Get() ){
       if( TMath::Abs(particle0->S()) != S1 + S2 + S3 &&
 	  TMath::Abs(particle0->S()) != S1 + S2 + S3 +1 )
@@ -269,34 +307,34 @@ namespace calc
 	    if( ZZ != Z1 + Z2 + Z3 )
 	      continue;
 
-	    double KE1   = KE( Mass1, Range1, Z1, A1, S1 );
-	    double KE1U  = KE( Mass1, Range1+errRange1, Z1, A1, S1 );
-	    double KE1D  = KE( Mass1, Range1-errRange1, Z1, A1, S1 );
+	    // double KE1   = KE( Mass1, Range1, Z1, A1, S1 );
+	    // double KE1U  = KE( Mass1, Range1+errRange1, Z1, A1, S1 );
+	    // double KE1D  = KE( Mass1, Range1-errRange1, Z1, A1, S1 );
 	    double Mom1  = P( Mass1, Range1, Z1, A1, S1 );
 	    if( Mom1==0. ) continue;
 	    double Mom1U = P( Mass1, Range1+errRange1, Z1, A1, S1 );
 	    double Mom1D = P( Mass1, Range1-errRange1, Z1, A1, S1 );
-	    double errKE1  = TMath::Abs( KE1U - KE1D )*0.5;
+	    // double errKE1  = TMath::Abs( KE1U - KE1D )*0.5;
 	    double errMom1 = TMath::Abs( Mom1U - Mom1D )*0.5;
 
-	    double KE2   = KE( Mass2, Range2, Z2, A2, S2 );
-	    double KE2U  = KE( Mass2, Range2+errRange2, Z2, A2, S2 );
-	    double KE2D  = KE( Mass2, Range2-errRange2, Z2, A2, S2 );
+	    // double KE2   = KE( Mass2, Range2, Z2, A2, S2 );
+	    // double KE2U  = KE( Mass2, Range2+errRange2, Z2, A2, S2 );
+	    // double KE2D  = KE( Mass2, Range2-errRange2, Z2, A2, S2 );
 	    double Mom2  = P( Mass2, Range2, Z2, A2, S2 );
 	    if( Mom2==0. ) continue;
 	    double Mom2U = P( Mass2, Range2+errRange2, Z2, A2, S2 );
 	    double Mom2D = P( Mass2, Range2-errRange2, Z2, A2, S2 );
-	    double errKE2  = TMath::Abs( KE2U - KE2D )*0.5;
+	    // double errKE2  = TMath::Abs( KE2U - KE2D )*0.5;
 	    double errMom2 = TMath::Abs( Mom2U - Mom2D )*0.5;
 
-	    double KE3   = KE( Mass3, Range3, Z3, A3, S3 );
-	    double KE3U  = KE( Mass3, Range3+errRange3, Z3, A3, S3 );
-	    double KE3D  = KE( Mass3, Range3-errRange3, Z3, A3, S3 );
+	    // double KE3   = KE( Mass3, Range3, Z3, A3, S3 );
+	    // double KE3U  = KE( Mass3, Range3+errRange3, Z3, A3, S3 );
+	    // double KE3D  = KE( Mass3, Range3-errRange3, Z3, A3, S3 );
 	    double Mom3  = P( Mass3, Range3, Z3, A3, S3 );
 	    if( Mom3==0. ) continue;
 	    double Mom3U = P( Mass3, Range3+errRange3, Z3, A3, S3 );
 	    double Mom3D = P( Mass3, Range3-errRange3, Z3, A3, S3 );
-	    double errKE3  = TMath::Abs( KE3U - KE3D )*0.5;
+	    // double errKE3  = TMath::Abs( KE3U - KE3D )*0.5;
 	    double errMom3 = TMath::Abs( Mom3U - Mom3D )*0.5;
 
 	    double sc1 = TMath::Sin(rtheta1)*TMath::Cos(rphi1);
@@ -439,6 +477,8 @@ namespace calc
 	}
       }
     }
+
+    return true;
 
     for(SS=S1+S2+S3; SS<=S1+S2+S3+1; SS++ ){
       for(ZZ=1;ZZ<=8;ZZ++){
